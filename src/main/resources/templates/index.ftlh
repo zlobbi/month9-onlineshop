@@ -14,12 +14,12 @@
             <section class="d-flex mx-auto">
                 <div class="my-5 mx-auto d-flex justify-content-around">
                     <#list smartphones as s>
-                        <div class="card mx-1" style="width: 18rem;">
-                            <img class="card-img-top" src="../images/${s.image}" alt="${s.image}">
+                        <div class="card mx-1" style="">
+                            <img class="card-img-top " style="height: 200px; width: auto" src="../images/${s.image}" alt="${s.image}">
                             <div class="card-body text-center">
                                 <h5 class="card-title">${s.name}</h5>
                                 <p class="card-text">${s.description}</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                                <a href="#" class="btn btn-primary" style="width: 120px">info</a>
                             </div>
                         </div>
                     </#list>
