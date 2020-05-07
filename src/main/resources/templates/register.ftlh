@@ -21,11 +21,11 @@
                 <#if errors?? >
                     <p>Invalid fields!</p>
                     <#list errors as fieldError>
-                        <p>${fieldError.field} - ${fieldError.defaultMessage!'-- no message --'}</p>
+                        <p style="color: red">${fieldError.field} - ${fieldError.defaultMessage!'-- no message --'}</p>
                     </#list>
                 </#if>
                 <#if user?? >
-                    <p>${user.login} - ${user.email} already registered!</p>
+                    <p>${user.login} - ${user.email} already exists!</p>
                 </#if>
             </form>
         </div>
