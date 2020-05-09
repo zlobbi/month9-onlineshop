@@ -13,7 +13,7 @@
 
         <title>${title}</title>
 
-        <link rel="stylesheet" href="/css/main.css">
+        <#--        <link rel="stylesheet" href="/css/main.css">-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
               integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
@@ -32,34 +32,23 @@
     -->
     <header class="header">
         <div class="container d-flex justify-content-around">
-            <nav class="navbar">
-                <a href="/register" class="btn btn-primary text-center">
-                    register
-                </a>
-            </nav>
-            <nav class="navbar">
-                <form id="search-form"  method="post" action="/result">
-                    <div class="form-row align-items center">
-                        <div class="form-group col-auto my-1">
-                            <input type="text" name="text" class="form-control" id="input" placeholder="text">
-                        </div>
-                        <div class="form-group col-auto my-1">
-                            <select id="param" name="param" class="form-control">
-                                <option selected>by name</option>
-                                <option>by price</option>
-                                <option>by brand</option>
-                                <option>in description</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary">search</button>
-                    </div>
-                </form>
-            </nav>
 
+            <nav class="navbar">
+                <#if dto??>
+                    <p>${dto.login}</p>
+                <#else>
+                    <a href="/login" class="btn btn-primary text-center">
+                        login
+                    </a>
+                </#if>
+            </nav>
+            <nav class="navbar">
+                <a href="/search" class="btn btn-primary">search</a>
+            </nav>
         </div>
     </header>
 
-    <div class="container">
+    <div class="container text-center">
         <#--
          элемент nested указывает что в этом место
          будет подставлено некоторое содержимое,
