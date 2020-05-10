@@ -3,7 +3,7 @@
 <@main.renderWith>
     <div class="text-center">
         <div class="d-flex mx-auto">
-            <form id="search-form" method="get">
+            <form id="search-form" method="get" class="mx-auto d-flex">
                 <div class="form-row align-items center">
                     <div class="form-group col-auto my-1">
                         <input type="text" name="text" class="form-control" value="${(form.text)!''}" id="input"

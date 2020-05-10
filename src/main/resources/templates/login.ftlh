@@ -4,7 +4,7 @@
         <div class="d-flex justify-content-center">
             <div class="mx-3">
                 <h3>Login</h3>
-                <form method="post" action="/login">
+                <form method="post" action="/login" id="login-form">
                     <#if _csrf??>
                         <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
                                value="${(_csrf.token)!'--no-token--'}"/>
@@ -18,8 +18,11 @@
                            placeholder="password"><br>
                     <button class="btn btn-outline-primary btn-block" type="submit">sign in</button>
                     <br>
+                    <a href="/register" class="btn btn-outline-primary btn-block" >registration</a>
+                    <br>
                 </form>
             </div>
         </div>
     </section>
+    <script src="js/login.js"></script>
 </@main.renderWith>

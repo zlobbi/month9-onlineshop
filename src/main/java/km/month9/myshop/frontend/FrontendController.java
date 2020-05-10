@@ -3,6 +3,7 @@ package km.month9.myshop.frontend;
 import km.month9.myshop.domain.exception.ResourceNotFoundException;
 import km.month9.myshop.domain.smartphone.SearchForm;
 import km.month9.myshop.domain.smartphone.SmartphoneService;
+import km.month9.myshop.domain.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +25,8 @@ public class FrontendController {
     private SmartphoneService service;
     @Autowired
     private PropertiesService propertiesService;
+    @Autowired
+    private UserService userService;
 
     private static <T> void constructPageable(Page<T> list, int pageSize, Model model, String uri) {
         if (list.hasNext()) {
@@ -53,13 +56,14 @@ public class FrontendController {
     }
 
     @GetMapping("/search")
-    public String search(Model model, Pageable pageable, HttpServletRequest uriBuilder, SearchForm form) {
+    public String search(Model model, Pageable pageable, HttpServletRequest uriBuilder,
+                         SearchForm form) {
         if(!model.containsAttribute("form")) {
             model.addAttribute("from", new SearchForm());
         }
         if(!form.getText().equals("")) {
             text = form.getText();
-            param = uriBuilder.getParameter("param");
+            param = form.getParam();
         }
         var uri = uriBuilder.getRequestURI();
         var result = service.searchSmartphones(pageable, param, text);

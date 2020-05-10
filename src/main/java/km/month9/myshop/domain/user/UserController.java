@@ -21,7 +21,7 @@ public class UserController {
 
     @GetMapping("/register")
     public String userRegisterPage(Model model) {
-        if(!model.containsAttribute("form")) {
+        if (!model.containsAttribute("form")) {
             model.addAttribute("form", new UserRegisterForm());
         }
         return "/register";
@@ -29,8 +29,8 @@ public class UserController {
 
     @RequestMapping("/register")
     public String register(@Valid UserRegisterForm form,
-                            BindingResult validationResult,
-                            RedirectAttributes attributes) {
+                           BindingResult validationResult,
+                           RedirectAttributes attributes) {
         attributes.addFlashAttribute("form");
         if (validationResult.hasFieldErrors()) {
             attributes.addFlashAttribute("errors", validationResult.getFieldErrors());

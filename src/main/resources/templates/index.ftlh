@@ -21,5 +21,5 @@
         </section>
         <#include "partials/pagination.ftlh">
     </div>
-
+    <script src="/js/index.js"></script>
 </@main.renderWith>

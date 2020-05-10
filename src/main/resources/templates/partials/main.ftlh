@@ -34,13 +34,9 @@
         <div class="container d-flex justify-content-around">
 
             <nav class="navbar">
-                <#if dto??>
-                    <p>${dto.login}</p>
-                <#else>
                     <a href="/login" class="btn btn-primary text-center">
                         login
                     </a>
-                </#if>
             </nav>
             <nav class="navbar">
                 <a href="/search" class="btn btn-primary">search</a>
@@ -61,6 +57,7 @@
     <#list scripts as scriptSource>
         <script src="${scriptSource}"></script>
     </#list>
+    <script src="js/main.js"> </script>
     </body>
     </html>
 
