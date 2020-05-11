@@ -52,6 +52,10 @@ public class FrontendController {
         var smartphones = service.getSmartphones(pageable);
         var uri = uriBuilder.getRequestURI();
         constructPageable(smartphones, propertiesService.getDefaultPageSize(), model, uri);
+        if(uriBuilder.getUserPrincipal() != null) {
+            var user = userService.getByEmail(uriBuilder.getUserPrincipal().getName());
+            model.addAttribute("dto", user);
+        }
         return "index";
     }
 
@@ -68,6 +72,10 @@ public class FrontendController {
         var uri = uriBuilder.getRequestURI();
         var result = service.searchSmartphones(pageable, param, text);
         constructPageable(result, propertiesService.getDefaultPageSize(), model, uri);
+        if(uriBuilder.getUserPrincipal() != null) {
+            var user = userService.getByEmail(uriBuilder.getUserPrincipal().getName());
+            model.addAttribute("dto", user);
+        }
         return "search";
     }
 

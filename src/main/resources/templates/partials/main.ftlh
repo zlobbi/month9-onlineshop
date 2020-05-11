@@ -32,11 +32,10 @@
     -->
     <header class="header">
         <div class="container d-flex justify-content-around">
-
             <nav class="navbar">
-                    <a href="/login" class="btn btn-primary text-center">
-                        login
-                    </a>
+                <#if dto??><a href="/profile" class="btn btn-primary text-center"> profile </a>
+                    <#else> <a href="/login" class="btn btn-primary text-center"> login </a>
+                </#if>
             </nav>
             <nav class="navbar">
                 <a href="/search" class="btn btn-primary">search</a>
