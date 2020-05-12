@@ -1,0 +1,40 @@
+html, body {
+    font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    line-height: 1.2;
+    background-color: #f8fafb;
+}
+
+.container {
+    max-width: 800px;
+    width: 800px;
+    margin: 0 auto;
+}
+
+.border {
+    box-sizing: border-box;
+    padding: 5px;
+    border: 1px solid black;
+}
+
+.key-cell {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 30%;
+    overflow: hidden;
+    vertical-align: top;
+    text-align: right;
+    border-right: 2px solid black;
+    padding-right: 10px;
+}
+
+.value-cell {
+    box-sizing: border-box;
+    display: inline-block;
+    /*width: 80%;*/
+    overflow: hidden;
+    vertical-align: top;
+    padding-left: 10px;
+}
