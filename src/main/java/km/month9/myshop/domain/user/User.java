@@ -1,5 +1,6 @@
 package km.month9.myshop.domain.user;
 
+import km.month9.myshop.domain.cart.Cart;
 import lombok.*;
 
 import javax.persistence.*;
@@ -36,4 +37,7 @@ public class User {
     @Column(length = 128)
     @Builder.Default
     private String role = "USER";
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    private Cart cart;
 }

@@ -1,5 +1,6 @@
 package km.month9.myshop.frontend;
 
+import km.month9.myshop.domain.cart.CartService;
 import km.month9.myshop.domain.cart.KeyValueRequestDto;
 import km.month9.myshop.domain.exception.ResourceNotFoundException;
 import km.month9.myshop.domain.smartphone.SearchForm;
@@ -32,6 +33,8 @@ public class FrontendController {
     private PropertiesService propertiesService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CartService cartService;
 
     private static <T> void constructPageable(Page<T> list, int pageSize, Model model, String uri) {
         if (list.hasNext()) {
@@ -76,6 +79,9 @@ public class FrontendController {
         if(uriBuilder.getUserPrincipal() != null) {
             var user = userService.getByEmail(uriBuilder.getUserPrincipal().getName());
             model.addAttribute("dto", user);
+            if(cartService.checkUserCart(user.getId())) {
+                model.addAttribute("cart", cartService.getUserCart(user.getId()));
+            }
         }
         return "index";
     }

@@ -2,6 +2,8 @@ package km.month9.myshop.domain.cart;
 
 import km.month9.myshop.domain.smartphone.Smartphone;
 import km.month9.myshop.domain.smartphone.SmartphoneRepository;
+import km.month9.myshop.domain.user.User;
+import km.month9.myshop.domain.user.UserRepository;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,9 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 class CartController {
     private final SmartphoneRepository repository;
+    private final UserRepository userRepository;
+    private final CartService cartService;
+    private final CartRepository cartRepository;
 
     @GetMapping("/cart")
     public String cart(Model model, @SessionAttribute(name = Constants.CART_ID, required = false) List<Smartphone> cart) {
@@ -32,8 +37,8 @@ class CartController {
     @ResponseBody
     public boolean addToListRest(@RequestParam String value, @SessionAttribute(name = Constants.CART_ID, required = false) List<Smartphone> cart) {
         if (cart != null) {
-            Smartphone s = repository.findById(Integer.parseInt(value)).get();
-            cart.add(s);
+            ;
+            cart.add(repository.findById(Integer.parseInt(value)).get());
         }
 
         return true;
@@ -44,7 +49,18 @@ class CartController {
     @PostMapping("/cart/add")
     public String addToList(@RequestParam String value, HttpSession session, HttpServletRequest uriBuilder) {
         int sId = Integer.parseInt(value);
-        Smartphone s = repository.findById(sId).get();
+        String sess = session.getId();
+        Cart c = new Cart();
+        c.setSession(sess);
+        List<Smartphone> sm = new ArrayList<>();
+        sm.add(repository.findById(sId).get());
+        c.setMySmartphones(sm);
+
+        if(userRepository.findByEmail(uriBuilder.getUserPrincipal().getName()) != null) {
+            c.setUser(userRepository.findByEmail(uriBuilder.getUserPrincipal().getName()).get());
+
+        }
+
         if (session != null) {
             var attr = session.getAttribute(Constants.CART_ID);
             if (attr == null) {
@@ -52,11 +68,12 @@ class CartController {
             }
             try {
                 var list = (List<Smartphone>) session.getAttribute(Constants.CART_ID);
-                list.add(s);
+                list.add(repository.findById(sId).get());
             } catch (ClassCastException ignored) {
 
             }
         }
+//        cartService.saveCart(c);
         return "redirect:/";
     }
 

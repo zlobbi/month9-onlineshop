@@ -1,9 +1,11 @@
 package km.month9.myshop.domain.smartphone;
 
+import km.month9.myshop.domain.cart.Cart;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.List;
 
 @Data
 @Builder
@@ -35,6 +37,11 @@ public class Smartphone {
     @ManyToOne
     @JoinColumn(name = "brand_id")
     private Brand brand;
+//    @ManyToMany
+//    private List<Cart> carts;
+
+    @ManyToMany(mappedBy = "mySmartphones")
+    List<Cart> carts;
 
 
     @Override
