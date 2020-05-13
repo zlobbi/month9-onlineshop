@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ class CartController {
     // метод для добавления в "корзину" через форму
     // демонстрация добавления через объект HttpSession session
     @PostMapping("/cart/add")
-    public String addToList(@RequestParam String value, HttpSession session) {
+    public String addToList(@RequestParam String value, HttpSession session, HttpServletRequest uriBuilder) {
         int sId = Integer.parseInt(value);
         Smartphone s = repository.findById(sId).get();
         if (session != null) {
@@ -56,7 +57,6 @@ class CartController {
 
             }
         }
-
         return "redirect:/";
     }
 

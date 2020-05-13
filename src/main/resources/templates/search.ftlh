@@ -16,6 +16,7 @@
                             <option value="by brand">by brand</option>
                             <option value="in description">in description</option>
                         </select>
+
                     </div>
                     <button type="submit" formaction="/search" class="btn btn-primary">search</button>
                 </div>
@@ -33,6 +34,13 @@
                                 <h5 class="card-title">${s.name}</h5>
                                 <p class="card-text">${s.description}</p>
                                 <p class="card-text">${s.price} $</p>
+                                <form id="adding" action="/cart/add" method="post">
+                                    <#if _csrf??>
+                                        <input type="hidden" name="${(_csrf.parameterName)!'csrf'}" value="${(_csrf.token)!'--no-token--'}"/>
+                                    </#if>
+                                    <input name="value" value="${s.id}" hidden>
+                                    <button type="submit">add to cart</button>
+                                </form>
                                 <a href="#" class="btn btn-primary" style="width: 120px">info</a>
                             </div>
                         </div>

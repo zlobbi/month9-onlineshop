@@ -8,5 +8,5 @@ import lombok.Setter;
 @Setter
 public class KeyValueRequestDto {
     private String key;
-    private Smartphone value;
+    private String value;
 }

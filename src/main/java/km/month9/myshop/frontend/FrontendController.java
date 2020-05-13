@@ -3,6 +3,7 @@ package km.month9.myshop.frontend;
 import km.month9.myshop.domain.cart.KeyValueRequestDto;
 import km.month9.myshop.domain.exception.ResourceNotFoundException;
 import km.month9.myshop.domain.smartphone.SearchForm;
+import km.month9.myshop.domain.smartphone.Smartphone;
 import km.month9.myshop.domain.smartphone.SmartphoneService;
 import km.month9.myshop.domain.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @RequestMapping
@@ -60,6 +62,14 @@ public class FrontendController {
                 .forEachRemaining(key -> map.put(key, session.getAttribute(key).toString()));
 
         model.addAttribute("sessionAttributes", map);
+
+        List<Smartphone> list = (List<Smartphone>) session.getAttribute("_cart_");
+        System.out.println(list);
+        if(list.size() != 0) {
+            model.addAttribute("cart", list.size());
+        }
+
+
         var smartphones = service.getSmartphones(pageable);
         var uri = uriBuilder.getRequestURI();
         constructPageable(smartphones, propertiesService.getDefaultPageSize(), model, uri);
