@@ -11,13 +11,14 @@ import java.util.List;
 @Data
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Builder
+@ToString
 @NoArgsConstructor
-@Entity
+@Entity(name = "CartEntity")
 @Table(name = "carts")
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
     @OneToOne
     private User user;
 
@@ -28,8 +29,13 @@ public class Cart {
     @ManyToMany
     @JoinTable(
             name = "cart_smartphone",
-            joinColumns = @JoinColumn(name = "cart_id"),
-            inverseJoinColumns = @JoinColumn(name = "smartphone_id"))
+            joinColumns = @JoinColumn(referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(referencedColumnName = "id"))
     List<Smartphone> mySmartphones;
+
+    @Override
+    public String toString() {
+        return String.format("%s %s %s", this.user, this.session, this.mySmartphones);
+    }
 
 }

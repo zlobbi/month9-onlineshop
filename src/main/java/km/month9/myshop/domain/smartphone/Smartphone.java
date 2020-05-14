@@ -16,7 +16,7 @@ import java.util.List;
 public class Smartphone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
     @NotBlank
     @Size(min = 4)
     @Column(length = 128)
@@ -29,16 +29,14 @@ public class Smartphone {
     private String description;
     @PositiveOrZero
     @Column(length = 128)
-    private Integer qty;
+    private int qty;
     @Positive
     @Column
-    private float price;
+    private double price;
     @NotNull
     @ManyToOne
     @JoinColumn(name = "brand_id")
     private Brand brand;
-//    @ManyToMany
-//    private List<Cart> carts;
 
     @ManyToMany(mappedBy = "mySmartphones")
     List<Cart> carts;
@@ -46,7 +44,7 @@ public class Smartphone {
 
     @Override
     public String toString() {
-        return String.format("%s, %s, %s, %d, %.2f",
+        return String.format("id=%d, name=%s, image=%s, description=%s, qty=%d, price=%.2f", this.id,
                  this.name, this.image, this.description, this.qty, this.price);
     }
 

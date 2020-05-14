@@ -9,5 +9,5 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
 
     boolean existsByUser_Id(int userId);
 
-    Cart findByUser_Id(int userId);
+    List<Cart> findAllByUser_Id(int userId);
 }

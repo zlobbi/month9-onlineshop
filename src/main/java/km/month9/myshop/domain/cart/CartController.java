@@ -20,7 +20,6 @@ import java.util.List;
 class CartController {
     private final SmartphoneRepository repository;
     private final UserRepository userRepository;
-    private final CartService cartService;
     private final CartRepository cartRepository;
 
     @GetMapping("/cart")
@@ -37,7 +36,6 @@ class CartController {
     @ResponseBody
     public boolean addToListRest(@RequestParam String value, @SessionAttribute(name = Constants.CART_ID, required = false) List<Smartphone> cart) {
         if (cart != null) {
-            ;
             cart.add(repository.findById(Integer.parseInt(value)).get());
         }
 
@@ -49,15 +47,12 @@ class CartController {
     @PostMapping("/cart/add")
     public String addToList(@RequestParam String value, HttpSession session, HttpServletRequest uriBuilder) {
         int sId = Integer.parseInt(value);
-        String sess = session.getId();
         Cart c = new Cart();
-        c.setSession(sess);
-        List<Smartphone> sm = new ArrayList<>();
-        sm.add(repository.findById(sId).get());
-        c.setMySmartphones(sm);
+        c.setSession(session.getId());
 
         if(userRepository.findByEmail(uriBuilder.getUserPrincipal().getName()) != null) {
             c.setUser(userRepository.findByEmail(uriBuilder.getUserPrincipal().getName()).get());
+            cartRepository.save(c);
 
         }
 
@@ -73,7 +68,8 @@ class CartController {
 
             }
         }
-//        cartService.saveCart(c);
+
+//        cartRepository.save(c);
         return "redirect:/";
     }
 

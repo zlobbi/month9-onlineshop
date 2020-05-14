@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
-@Entity
+@Entity(name = "UserEntity")
 @Builder
 @Table(name = "users")
 @NoArgsConstructor

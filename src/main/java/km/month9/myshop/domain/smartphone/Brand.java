@@ -15,7 +15,7 @@ import java.util.List;
 public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
     @NotBlank
     @Size(min = 4, max = 16, message = "Name must contains 4 >< 16 symbols")
     @Column(length = 128)
@@ -28,9 +28,9 @@ public class Brand {
     @OrderBy("name ASC")
     List<Smartphone> smartphones;
 
-//    @Override
-//    public String toString() {
-//        return String.format("%s, %s, %s",
-//                this.name, this.icon, this.products);
-//    }
+    @Override
+    public String toString() {
+        return String.format("%s, %s, %s",
+                this.name, this.icon, this.smartphones);
+    }
 }

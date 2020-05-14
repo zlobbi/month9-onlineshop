@@ -15,7 +15,7 @@ public class SmartphoneDTO {
     private String image;
     private BrandDTO brand;
     private String description;
-    private float price;
+    private double price;
 
     static SmartphoneDTO from(Smartphone smartphone) {
         return builder()
