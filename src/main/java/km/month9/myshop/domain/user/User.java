@@ -9,9 +9,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
-@Entity(name = "UserEntity")
+@Entity
 @Builder
-@Table(name = "users")
+@Table(name = "User")
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class User {
@@ -37,7 +37,7 @@ public class User {
     @Column(length = 128)
     @Builder.Default
     private String role = "USER";
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cart_id", referencedColumnName = "id")
-    private Cart cart;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+//    private Cart cart;
 }

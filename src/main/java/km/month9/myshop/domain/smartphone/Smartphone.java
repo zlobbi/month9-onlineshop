@@ -1,6 +1,7 @@
 package km.month9.myshop.domain.smartphone;
 
 import km.month9.myshop.domain.cart.Cart;
+import km.month9.myshop.domain.cart.CartSmartphone;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor
 @Entity
-@Table(name = "smartphones")
+@Table(name = "Smartphone")
 public class Smartphone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,8 +39,8 @@ public class Smartphone {
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
-    @ManyToMany(mappedBy = "mySmartphones")
-    List<Cart> carts;
+    @OneToMany(mappedBy = "smartphone")
+    List<CartSmartphone> carts;
 
 
     @Override

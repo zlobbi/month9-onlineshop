@@ -20,6 +20,7 @@
                     <br>
                     <a href="/register" class="btn btn-outline-primary btn-block" >registration</a>
                     <br>
+                    <a href="/forgot-password" class="btn btn-outline-primary btn-block">forgot password</a>
                 </form>
             </div>
         </div>

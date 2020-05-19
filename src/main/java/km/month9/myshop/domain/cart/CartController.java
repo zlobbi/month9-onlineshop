@@ -6,6 +6,7 @@ import km.month9.myshop.domain.user.User;
 import km.month9.myshop.domain.user.UserRepository;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import org.apache.tomcat.util.bcel.Const;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ class CartController {
     private final SmartphoneRepository repository;
     private final UserRepository userRepository;
     private final CartRepository cartRepository;
+    private final CartSmartphoneRepository repo;
 
     @GetMapping("/cart")
     public String cart(Model model, @SessionAttribute(name = Constants.CART_ID, required = false) List<Smartphone> cart) {
@@ -48,13 +50,14 @@ class CartController {
     public String addToList(@RequestParam String value, HttpSession session, HttpServletRequest uriBuilder) {
         int sId = Integer.parseInt(value);
         Cart c = new Cart();
+        c.setUser(userRepository.findByEmail(uriBuilder.getUserPrincipal().getName()).get());
         c.setSession(session.getId());
-
-        if(userRepository.findByEmail(uriBuilder.getUserPrincipal().getName()) != null) {
-            c.setUser(userRepository.findByEmail(uriBuilder.getUserPrincipal().getName()).get());
-            cartRepository.save(c);
-
-        }
+        cartRepository.save(c);
+        CartSmartphone sc = new CartSmartphone();
+        sc.setCart(c);
+        sc.setSession(session.getId());
+        sc.setSmartphone(repository.findById(sId).get());
+        repo.save(sc);
 
         if (session != null) {
             var attr = session.getAttribute(Constants.CART_ID);
@@ -68,18 +71,37 @@ class CartController {
 
             }
         }
-
-//        cartRepository.save(c);
         return "redirect:/";
     }
+
+    @PostMapping("/cart/buy")
+    public String buy(HttpSession session, HttpServletRequest request) {
+       session.removeAttribute(Constants.CART_ID);
+//       var userId = userRepository.findByEmail(request.getUserPrincipal().getName()).get().getId();
+//       cartRepository.deleteAllByUser_id(userId);
+       return "redirect:/cart/feedback";
+    }
+
+    @GetMapping("/cart/feedback")
+    public String feedback() {
+        return "review";
+    }
+
+    @PostMapping("cart/feedback")
+    public String feedback(HttpSession session) {
+        return "redirect:/";
+    }
+
 
     // в идеале это должно быть @DeleteMapping, но web-формы не поддерживают
     // запросы с методами отличными от get и post
     // по этому у нас адрес метода немного "странный" :)
     @PostMapping("/cart/empty")
-    public String emptyCart(HttpSession session) {
+    public String emptyCart(HttpSession session, HttpServletRequest request) {
         session.removeAttribute(Constants.CART_ID);
-
+        var userId = userRepository.findByEmail(request.getUserPrincipal().getName()).get().getId();
+        cartRepository.deleteAllByUser_id(userId);
+        cartRepository.deleteAll();
         return "redirect:/cart";
     }
 }

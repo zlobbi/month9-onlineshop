@@ -13,29 +13,17 @@
 <body>
 
 <div class="container">
-    <h1>Ваша корзина</h1>
-    <#if cartItems??>
-        <#list cartItems as item>
-            <p>${item}</p>
-        </#list>
-        <form action="/cart/empty" method="post">
-            <#if _csrf??>
-                <input type="hidden" name="${(_csrf.parameterName)!'csrf'}" value="${(_csrf.token)!'--no-token--'}"/>
-            </#if>
-            <button>Очистить корзину</button>
-        </form>
-    <#else>
-        <p>тут ничего нет!</p>
-    </#if>
-    <form action="/cart/buy" method="post">
+    <h1>Feedback</h1>
+    <form action="/cart/feedback" method="post">
         <#if _csrf??>
             <input type="hidden" name="${(_csrf.parameterName)!'csrf'}" value="${(_csrf.token)!'--no-token--'}"/>
         </#if>
-        <button>Buy</button>
+        <textarea placeholder="Enter the text of feedback"></textarea>
+        <button>send</button>
     </form>
 
     <div>
-        <a href="/">назад</a>
+        <a href="/">to homepage</a>
     </div>
 </div>
 

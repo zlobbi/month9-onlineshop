@@ -1,11 +1,16 @@
 package km.month9.myshop.domain.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
-import java.util.Optional;
+import java.util.List;
 
-public interface UserRepository extends JpaRepository<User, Integer> {
-    boolean existsByLoginAndEmail(String login, String email);
+public interface PasswordResetRepository extends JpaRepository<PasswordResetToken, Integer> {
 
-    Optional<User> findByEmail(String email);
+    PasswordResetToken getByToken(String token);
+
+    @Query(value = "select p.user from PasswordResetToken p where p.id = 1")
+    List<User> findAllUser();
+
+    boolean existsByToken(String token);
 }

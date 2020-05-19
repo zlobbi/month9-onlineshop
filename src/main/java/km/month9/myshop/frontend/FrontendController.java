@@ -1,11 +1,12 @@
 package km.month9.myshop.frontend;
 
-import km.month9.myshop.domain.cart.CartService;
 import km.month9.myshop.domain.cart.KeyValueRequestDto;
 import km.month9.myshop.domain.exception.ResourceNotFoundException;
+import km.month9.myshop.domain.smartphone.BrandRepository;
 import km.month9.myshop.domain.smartphone.SearchForm;
 import km.month9.myshop.domain.smartphone.Smartphone;
 import km.month9.myshop.domain.smartphone.SmartphoneService;
+import km.month9.myshop.domain.user.PasswordResetRepository;
 import km.month9.myshop.domain.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,7 +35,7 @@ public class FrontendController {
     @Autowired
     private UserService userService;
     @Autowired
-    private CartService cartService;
+    private BrandRepository prT;
 
     private static <T> void constructPageable(Page<T> list, int pageSize, Model model, String uri) {
         if (list.hasNext()) {
@@ -58,6 +59,7 @@ public class FrontendController {
     @GetMapping
     public String index(Model model, Pageable pageable, HttpServletRequest uriBuilder, HttpSession session) {
         var map = new HashMap<String, Object>();
+        
         map.put("Идентификатор сессии", session.getId());
 
         session.getAttributeNames()
@@ -67,7 +69,6 @@ public class FrontendController {
         model.addAttribute("sessionAttributes", map);
 
         List<Smartphone> list = (List<Smartphone>) session.getAttribute("_cart_");
-        System.out.println(list);
         if(list.size() != 0) {
             model.addAttribute("cart", list.size());
         }
@@ -79,9 +80,9 @@ public class FrontendController {
         if(uriBuilder.getUserPrincipal() != null) {
             var user = userService.getByEmail(uriBuilder.getUserPrincipal().getName());
             model.addAttribute("dto", user);
-            if(cartService.checkUserCart(user.getId())) {
-                model.addAttribute("cart", cartService.getUserCart(user.getId()));
-            }
+//            if(cartService.checkUserCart(user.getId())) {
+//                model.addAttribute("cart", cartService.getUserCart(user.getId()));
+//            }
         }
         return "index";
     }

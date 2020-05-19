@@ -14,7 +14,7 @@
 
 <div class="container">
     <h1>Ваша корзина</h1>
-        <#if cartItems??>
+    <#if cartItems??>
         <#list cartItems as item>
             <p>${item}</p>
         </#list>
@@ -27,6 +27,12 @@
     <#else>
         <p>тут ничего нет!</p>
     </#if>
+    <form action="/cart/buy" method="post">
+        <#if _csrf??>
+            <input type="hidden" name="${(_csrf.parameterName)!'csrf'}" value="${(_csrf.token)!'--no-token--'}"/>
+        </#if>
+        <button>Buy</button>
+    </form>
 
     <div>
         <a href="/">назад</a>

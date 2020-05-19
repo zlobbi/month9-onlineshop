@@ -42,16 +42,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .anyRequest()
                 .permitAll();
+
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         String fetchUsersQuery = "select email, password, enabled"
-                + " from users"
+                + " from User"
                 + " where email = ?";
 
         String fetchRolesQuery = "select email, role"
-                + " from users"
+                + " from User"
                 + " where email = ?";
 
         auth.jdbcAuthentication()
