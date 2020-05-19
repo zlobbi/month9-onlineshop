@@ -74,9 +74,9 @@ public class UserController {
     }
 
     @PostMapping("/reset-password")
-    public String reset(@RequestParam Map<String, String> map, RedirectAttributes attributes) {
+    public String reset(@RequestParam Map<String, String> map, RedirectAttributes attributes, Model model) {
         if(!passwordRR.existsByToken(map.get("token"))) {
-            attributes.addAttribute("falseToken", "Not valid token!");
+            attributes.addFlashAttribute("error", "Not valid token!");
             return "redirect:/forgot-password";
         }
         var pr = passwordRR.getByToken(map.get("token"));

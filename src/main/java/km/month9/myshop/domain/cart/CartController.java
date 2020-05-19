@@ -99,9 +99,6 @@ class CartController {
     @PostMapping("/cart/empty")
     public String emptyCart(HttpSession session, HttpServletRequest request) {
         session.removeAttribute(Constants.CART_ID);
-        var userId = userRepository.findByEmail(request.getUserPrincipal().getName()).get().getId();
-        cartRepository.deleteAllByUser_id(userId);
-        cartRepository.deleteAll();
         return "redirect:/cart";
     }
 }
