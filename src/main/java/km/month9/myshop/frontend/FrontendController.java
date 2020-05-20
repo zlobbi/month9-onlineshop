@@ -99,7 +99,7 @@ public class FrontendController {
         }
         var uri = uriBuilder.getRequestURI();
         var result = service.searchSmartphones(pageable, param, text);
-        constructPageable(result, propertiesService.getDefaultPageSize(), model, uri);
+        constructPageable(result, 2, model, uri);
         if(uriBuilder.getUserPrincipal() != null) {
             var user = userService.getByEmail(uriBuilder.getUserPrincipal().getName());
             model.addAttribute("dto", user);

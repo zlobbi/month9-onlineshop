@@ -1,19 +1,10 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<#import "/spring.ftl" as spring>
+<#import "partials/main.ftlh" as main>
 
-    <title>Lesson 69. Storing data in session</title>
-
-    <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
+<@main.renderWith>
 
 <div class="container">
-    <h1>Ваша корзина</h1>
+    <h1><@spring.message "your.cart"/></h1>
     <#if cartItems??>
         <#list cartItems as item>
             <p>${item}</p>
@@ -22,22 +13,20 @@
             <#if _csrf??>
                 <input type="hidden" name="${(_csrf.parameterName)!'csrf'}" value="${(_csrf.token)!'--no-token--'}"/>
             </#if>
-            <button>Очистить корзину</button>
+            <button class="btn btn-outline-primary mb-3" style="width: 200px"><@spring.message "empty.cart"/></button>
         </form>
     <#else>
-        <p>тут ничего нет!</p>
+        <p><@spring.message "cart.is.empty"/></p>
     </#if>
     <form action="/cart/buy" method="post">
         <#if _csrf??>
             <input type="hidden" name="${(_csrf.parameterName)!'csrf'}" value="${(_csrf.token)!'--no-token--'}"/>
         </#if>
-        <button>Buy</button>
+        <button class="btn btn-outline-primary mb-3" style="width: 200px"><@spring.message "buy.btn"/></button>
     </form>
 
     <div>
-        <a href="/">назад</a>
+        <a href="/" class="btn btn-outline-primary" style="width: 200px"><@spring.message "to.home"/></a>
     </div>
 </div>
-
-</body>
-</html>
+</@main.renderWith>

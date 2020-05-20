@@ -1,9 +1,10 @@
+<#import "/spring.ftl" as spring>
 <#import "partials/main.ftlh" as main>
 <@main.renderWith>
     <section id="page-splash" class="page-splash mt-5">
         <div class="d-flex justify-content-center">
             <div class="mx-3">
-                <h3>Registration</h3>
+                <h3 style="text-transform: capitalize"><@spring.message "register.btn"/></h3>
                 <form id="registration-form" method="post">
                     <#if _csrf??>
                         <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
@@ -15,13 +16,11 @@
                            placeholder="Login"><br>
                     <input type="password" name="password" class="form-control mb-1" value="${form.password!''}"
                            placeholder="Password"><br>
-                    <button class="btn btn-outline-primary btn-block" type="submit">Register</button>
+                    <button class="btn btn-outline-primary btn-block" type="submit"><@spring.message "register.btn"/></button>
                     <br>
                     <#if errors?? >
-                        <p>Invalid fields!</p>
                         <#list errors as fieldError>
-                            <p style="color: red">${fieldError.field}
-                                - ${fieldError.defaultMessage!'-- no message --'}</p>
+                            <p class="text-danger"><@spring.message "${fieldError.codes[0]}"/></p>
                         </#list>
                     </#if>
                     <#if user?? >

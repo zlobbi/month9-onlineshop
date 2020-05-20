@@ -1,3 +1,4 @@
+<#import "/spring.ftl" as spring />
 <#import "partials/main.ftlh" as main />
 
 <@main.renderWith>
@@ -7,18 +8,18 @@
                 <div class="form-row align-items center">
                     <div class="form-group col-auto my-1">
                         <input type="text" name="text" class="form-control" value="${(form.text)!''}" id="input"
-                               placeholder="search">
+                               placeholder="<@spring.message "search-btn" />">
                     </div>
                     <div class="form-group col-auto my-1">
                         <select id="param" typeof="text" name="param" class="form-control">
-                            <option value="by name" selected>by name</option>
-                            <option value="by price">by price</option>
-                            <option value="by brand">by brand</option>
-                            <option value="in description">in description</option>
+                            <option value="by name" selected><@spring.message "search.param.name" /></option>
+                            <option value="by price"><@spring.message "search.param.price" /></option>
+                            <option value="by brand"><@spring.message "search.param.brand" /></option>
+                            <option value="in description"><@spring.message "search.param.descr" /></option>
                         </select>
 
                     </div>
-                    <button type="submit" formaction="/search" class="btn btn-primary">search</button>
+                    <button type="submit" formaction="/search" class="btn btn-primary"><@spring.message "search-btn" /></button>
                 </div>
             </form>
         </div>
@@ -39,9 +40,8 @@
                                         <input type="hidden" name="${(_csrf.parameterName)!'csrf'}" value="${(_csrf.token)!'--no-token--'}"/>
                                     </#if>
                                     <input name="value" value="${s.id}" hidden>
-                                    <button type="submit">add to cart</button>
+                                    <button type="submit" class="btn btn-primary"><@spring.message "add-to-cart-btn" /></button>
                                 </form>
-                                <a href="#" class="btn btn-primary" style="width: 120px">info</a>
                             </div>
                         </div>
                     </#list>

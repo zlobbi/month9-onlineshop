@@ -40,9 +40,9 @@ public class SmartphoneService {
         if(param.equals("by name")) {
             sm = smartphoneRepository.findAllByNameContains(pageable, text).map(SmartphoneDTO::from);
         } else if(param.equals("by brand")) {
-            sm = smartphoneRepository.findAllByBrandContains(pageable, text).map(SmartphoneDTO::from);
+            sm = smartphoneRepository.findAllByBrand_Name(pageable, text).map(SmartphoneDTO::from);
         } else if(param.equals("by price")) {
-            sm = smartphoneRepository.findAllByPriceIsLessThanEqualOrderByPriceDesc(pageable, Float.parseFloat(text.trim())).map((SmartphoneDTO::from));
+            sm = smartphoneRepository.findAllByPriceIsLessThanEqual(pageable, Double.parseDouble(text.trim())).map((SmartphoneDTO::from));
         } else {
             sm = smartphoneRepository.findAllByDescriptionContains(pageable, text).map(SmartphoneDTO::from);
         }

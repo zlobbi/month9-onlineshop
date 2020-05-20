@@ -8,9 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface SmartphoneRepository extends JpaRepository<Smartphone, Integer> {
-    Page<Smartphone> findAllByBrandContains(Pageable pageable, String brand);
+    Page<Smartphone> findAllByBrand_Name(Pageable pageable, String brand);
     Page<Smartphone> findAllByNameContains(Pageable pageable, String name);
-    Page<Smartphone> findAllByPriceIsLessThanEqualOrderByPriceDesc(Pageable pageable, float price);
+    Page<Smartphone> findAllByPriceIsLessThanEqual(Pageable pageable, double price);
     Page<Smartphone> findAllByDescriptionContains(Pageable pageable, String description);
 
     @Query("select s from Smartphone s inner join CartSmartphone sc on sc.smartphone = s inner join Cart c on c.user.id =:userId")

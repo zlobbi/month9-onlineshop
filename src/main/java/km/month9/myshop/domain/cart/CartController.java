@@ -54,6 +54,7 @@ class CartController {
         int sId = Integer.parseInt(value);
         var user = userRepository.findByEmail(uriBuilder.getUserPrincipal().getName()).get();
         if(!cService.checkUserCart(user.getId())) {
+            session.removeAttribute(Constants.CART_ID);
             Cart c = new Cart();
             c.setUser(userRepository.findByEmail(uriBuilder.getUserPrincipal().getName()).get());
             c.setSession(session.getId());
@@ -85,9 +86,11 @@ class CartController {
     public String buy(HttpSession session, HttpServletRequest request) {
        session.removeAttribute(Constants.CART_ID);
        var user = userRepository.findByEmail(request.getUserPrincipal().getName()).get();
-       var cart = cService.getUserCart(user);
-       cartRepository.delete(cart);
-       return "redirect:/cart/feedback";
+        if (cService.checkUserCart(user.getId())) {
+            cartRepository.delete(cService.getUserCart(user));
+            return "redirect:/cart/feedback";
+        }
+        return "redirect:/";
     }
 
     @GetMapping("/cart/feedback")
@@ -108,7 +111,9 @@ class CartController {
     public String emptyCart(HttpSession session, HttpServletRequest request) {
         session.removeAttribute(Constants.CART_ID);
         var user = userRepository.findByEmail(request.getUserPrincipal().getName()).get();
-        cartRepository.delete(cService.getUserCart(user));
+        if (cService.checkUserCart(user.getId())) {
+            cartRepository.delete(cService.getUserCart(user));
+        }
         return "redirect:/cart";
     }
 }

@@ -1,10 +1,12 @@
+<#import "/spring.ftl" as spring>
+
 <#import "partials/main.ftlh" as main/>
 
 <@main.renderWith>
     <div class="container text-center">
         <section class="d-flex mx-auto">
             <#if cart??>
-                <a href="/cart">cart: ${cart}</a>
+                <a href="/cart"><@spring.message "cart"/> ${cart}</a>
             </#if>
             <div class="my-5 mx-auto d-flex justify-content-around">
                 <#list smartphones as s>
@@ -20,9 +22,8 @@
                                     <input type="hidden" name="${(_csrf.parameterName)!'csrf'}" value="${(_csrf.token)!'--no-token--'}"/>
                                 </#if>
                                 <input name="value" value="${s.id}" hidden>
-                                <button type="submit">add to cart</button>
+                                <button type="submit" class="btn btn-primary"><@spring.message "add-to-cart-btn"/></button>
                             </form>
-                            <a href="#" class="btn btn-primary" style="width: 120px">info</a>
                         </div>
                     </div>
                 </#list>
