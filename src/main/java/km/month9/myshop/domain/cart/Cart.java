@@ -2,10 +2,10 @@ package km.month9.myshop.domain.cart;
 
 import km.month9.myshop.domain.user.User;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -26,6 +26,7 @@ public class Cart {
     private String session;
 
     @OneToMany(mappedBy = "cart")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     public List<CartSmartphone> carts;
 
     @Override

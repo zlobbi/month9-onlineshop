@@ -59,7 +59,7 @@ public class FrontendController {
     @GetMapping
     public String index(Model model, Pageable pageable, HttpServletRequest uriBuilder, HttpSession session) {
         var map = new HashMap<String, Object>();
-        
+
         map.put("Идентификатор сессии", session.getId());
 
         session.getAttributeNames()
@@ -81,7 +81,7 @@ public class FrontendController {
             var user = userService.getByEmail(uriBuilder.getUserPrincipal().getName());
             model.addAttribute("dto", user);
 //            if(cartService.checkUserCart(user.getId())) {
-//                model.addAttribute("cart", cartService.getUserCart(user.getId()));
+                model.addAttribute("cart", service.getUserCart(user.getId()).size());
 //            }
         }
         return "index";

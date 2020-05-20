@@ -2,11 +2,10 @@ package km.month9.myshop.domain.cart;
 
 import km.month9.myshop.domain.smartphone.Smartphone;
 import km.month9.myshop.domain.smartphone.SmartphoneRepository;
-import km.month9.myshop.domain.user.User;
+import km.month9.myshop.domain.smartphone.SmartphoneService;
 import km.month9.myshop.domain.user.UserRepository;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import org.apache.tomcat.util.bcel.Const;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,12 +22,17 @@ class CartController {
     private final UserRepository userRepository;
     private final CartRepository cartRepository;
     private final CartSmartphoneRepository repo;
+    private final SmartphoneService service;
+    private final CartService cService;
 
     @GetMapping("/cart")
-    public String cart(Model model, @SessionAttribute(name = Constants.CART_ID, required = false) List<Smartphone> cart) {
-        if (cart != null) {
-            model.addAttribute("cartItems", cart);
+    public String cart(Model model, @SessionAttribute(name = Constants.CART_ID, required = false)
+            List<Smartphone> cart, HttpServletRequest request) {
+        var user = userRepository.findByEmail(request.getUserPrincipal().getName()).get();
+        if (user != null) {
+            model.addAttribute("cartItems", service.getUserCart(user.getId()));
         }
+
         return "cart";
     }
 
@@ -40,7 +44,6 @@ class CartController {
         if (cart != null) {
             cart.add(repository.findById(Integer.parseInt(value)).get());
         }
-
         return true;
     }
 
@@ -49,12 +52,16 @@ class CartController {
     @PostMapping("/cart/add")
     public String addToList(@RequestParam String value, HttpSession session, HttpServletRequest uriBuilder) {
         int sId = Integer.parseInt(value);
-        Cart c = new Cart();
-        c.setUser(userRepository.findByEmail(uriBuilder.getUserPrincipal().getName()).get());
-        c.setSession(session.getId());
-        cartRepository.save(c);
+        var user = userRepository.findByEmail(uriBuilder.getUserPrincipal().getName()).get();
+        if(!cService.checkUserCart(user.getId())) {
+            Cart c = new Cart();
+            c.setUser(userRepository.findByEmail(uriBuilder.getUserPrincipal().getName()).get());
+            c.setSession(session.getId());
+            cartRepository.save(c);
+        }
+        var cart = cService.getUserCart(user);
         CartSmartphone sc = new CartSmartphone();
-        sc.setCart(c);
+        sc.setCart(cart);
         sc.setSession(session.getId());
         sc.setSmartphone(repository.findById(sId).get());
         repo.save(sc);
@@ -77,8 +84,9 @@ class CartController {
     @PostMapping("/cart/buy")
     public String buy(HttpSession session, HttpServletRequest request) {
        session.removeAttribute(Constants.CART_ID);
-//       var userId = userRepository.findByEmail(request.getUserPrincipal().getName()).get().getId();
-//       cartRepository.deleteAllByUser_id(userId);
+       var user = userRepository.findByEmail(request.getUserPrincipal().getName()).get();
+       var cart = cService.getUserCart(user);
+       cartRepository.delete(cart);
        return "redirect:/cart/feedback";
     }
 
@@ -99,6 +107,8 @@ class CartController {
     @PostMapping("/cart/empty")
     public String emptyCart(HttpSession session, HttpServletRequest request) {
         session.removeAttribute(Constants.CART_ID);
+        var user = userRepository.findByEmail(request.getUserPrincipal().getName()).get();
+        cartRepository.delete(cService.getUserCart(user));
         return "redirect:/cart";
     }
 }

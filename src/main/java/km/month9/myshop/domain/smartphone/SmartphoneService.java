@@ -1,5 +1,7 @@
 package km.month9.myshop.domain.smartphone;
 
+import km.month9.myshop.domain.cart.CartRepository;
+import km.month9.myshop.domain.user.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,6 +16,7 @@ import java.util.stream.Collectors;
 public class SmartphoneService {
     private final SmartphoneRepository smartphoneRepository;
     private final BrandRepository brandRepository;
+    private final CartRepository cartRepository;
 
     public List<SmartphoneDTO.BrandDTO> findAllProductTypes() {
         return brandRepository.findAll().stream()
@@ -22,6 +25,14 @@ public class SmartphoneService {
 
     public Page<SmartphoneDTO> getSmartphones(Pageable pageable) {
         return smartphoneRepository.findAll(pageable).map(SmartphoneDTO::from);
+    }
+
+    public List<Smartphone> getUserCart(int userId) {
+        return smartphoneRepository.findAllByUserId(userId);
+    }
+
+    public void deleteUserCart(User user) {
+        cartRepository.deleteAll();
     }
 
     public Page<SmartphoneDTO> searchSmartphones(Pageable pageable, String param, String text) {

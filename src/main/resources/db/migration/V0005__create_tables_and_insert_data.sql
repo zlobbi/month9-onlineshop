@@ -65,7 +65,7 @@ create table `Cart_Smartphone`
     `qty` int not null ,
     `sum` double not null ,
     primary key (`id`),
-    constraint `fk_cart` foreign key (`cart_id`) references `Cart` (`id`),
+    constraint `fk_cart` foreign key (`cart_id`) references `Cart` (`id`) on delete cascade ,
     constraint `fk_smartphone_` foreign key (`smartphone_id`) references `Smartphone` (`id`)
 )
 

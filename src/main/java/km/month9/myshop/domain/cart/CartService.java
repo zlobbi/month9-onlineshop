@@ -1,5 +1,6 @@
 package km.month9.myshop.domain.cart;
 
+import km.month9.myshop.domain.user.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,13 @@ public class CartService {
         return repository.findAllByUser_Id(uId).size();
     }
 
+    public Cart getUserCart(User user) {
+        return repository.findByUser_Id(user.getId());
+    }
+
     public void saveCart(Cart c) {
         repository.save(c);
     }
+
+
 }
