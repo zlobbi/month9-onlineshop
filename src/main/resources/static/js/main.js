@@ -14,5 +14,7 @@ async function addToCart(e) {
     alert("обновите страницу для просмотра данных из сессии, или перейдите в корзину");
 }
 
-const updateElement = document.getElementById("cart-add");
-updateElement.addEventListener('click', addToCart);
+if (document.getElementById("cart-add") != null ) {
+    const updateElement = document.getElementById("cart-add");
+    updateElement.addEventListener('click', addToCart);
+}
